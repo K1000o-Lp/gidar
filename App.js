@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useReducer } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { PaperProvider } from 'react-native-paper';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import { authReducer } from './auth/authReducer';
+import { AuthContext } from './auth/authContext';
+import { RouterApp } from './router/RouterApp';
+
+import { theme } from './stylesheets/themes/LightTheme';
+
+const init = async () => {
+  return JSON.parse( await AsyncStorage.getItem('user') ) || { logged: false };
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App = () => {
+
+  const [ user, dispatch ] = useReducer(authReducer, {}, init);
+
+  useEffect(() => {
+    if( !user ) return;
+
+    (async () => {
+      await AsyncStorage.setItem('user', JSON.stringify(user));
+    })()
+  }, [ user ])
+
+  return (
+    <>
+      <AuthContext.Provider value={{
+        user,
+        dispatch
+      }}>
+        <PaperProvider theme={ theme }>
+          <RouterApp />
+        </PaperProvider>
+      </AuthContext.Provider>
+
+    </>
+  );
+}
