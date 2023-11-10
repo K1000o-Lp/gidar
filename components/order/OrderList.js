@@ -1,23 +1,35 @@
-import { useMemo } from 'react';
 import { FlatList, View } from 'react-native';
-import { getOrderByStatus } from '../../selectors/getOrderByStatus';
+import { ActivityIndicator } from 'react-native-paper';
 import { OrderItem } from './OrderItem';
+
+import { useGetOcurrencesByStatus } from '../../hooks/useGetOcurrencesByStatus';
 
 export const OrderList = ({status}) => {
   
-  const orders = useMemo(() => getOrderByStatus(status), [status]);
+  const { data:orders, loading } = useGetOcurrencesByStatus(status);
 
   return (
     <View
       style={{
-        marginBottom: 155,
+        marginBottom: 65,
+        flex: 1,
+        justifyContent: loading ? 'center' : null,
+        alignItems: loading ? 'center' : null,
       }}
     >
-      <FlatList
-        data={orders}
-        renderItem={({item}) => <OrderItem {...item} />}
-        keyExtractor={ item => item.id }
-      />
+      { loading 
+        ? (<ActivityIndicator 
+            animating={ true } 
+            size='large' 
+          />) 
+        : (<FlatList
+            data={orders}
+            renderItem={({item}) => <OrderItem {...item} />}
+            keyExtractor={ item => item.id }
+          />)
+      }
+      
+      
     </ View>
   )
 }

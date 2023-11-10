@@ -4,7 +4,7 @@ import { OrderList } from '../order/OrderList';
 export const PendingScreen = () => {
   return (
     <>
-      <OrderList status='pendiente' />
+      <OrderList status={ 1 } />
     </>
   )
 }

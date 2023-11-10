@@ -1,31 +1,47 @@
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { Button, Text, TextInput, useTheme } from 'react-native-paper';
+import { Button, Dialog, Portal, Text, TextInput, useTheme } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
+import { useSelector } from 'react-redux';
 
-const ocurrencesList = [
-  {
-    label: 'Equipo',
-    value: 1,
-  },
-  {
-    label: 'Impresora',
-    value: 2,
-  },
-  {
-    label: 'Redes',
-    value: 3,
-  },
-]
+import { useGetOcurrences } from '../../hooks/useGetOcurrences';
+import { postOcurrence } from '../../helpers/postOcurrence';
 
 export const UserDefaultScreen = () => {
 
   const theme = useTheme();
+  const [loading, setLoading] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
-  const [ocurrences, setOcurrences] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [issue, setIssue] = useState('');
+  const [description, setDescription] = useState('');
+  const [ocurrence, setOcurrence] = useState('');
+  const authState = useSelector((state) => state.auth);
+  const ocurrencesList = useGetOcurrences();
+  
+  const { user } = authState;
+  
+  const showDialog = () => setVisible(true);
 
-  const onPressToReport = () => {
-    
+  const hideDialog = () => setVisible(false);
+
+  const handleReport = () => {
+
+    if(issue.trim().length && description.trim().length > 2 && ocurrence) {
+
+      setLoading(true);
+
+      postOcurrence(user.id, user.idDependency, ocurrence, issue, description)
+        .then((response) => {
+          setIssue('');
+          setOcurrence('');
+          setDescription('');
+          showDialog();
+        })
+        .finally(() => {
+          setLoading(false);
+        })
+    }
   }
 
   return (
@@ -47,7 +63,7 @@ export const UserDefaultScreen = () => {
             color: theme.colors.secondary
           }}
         >
-          López Camilo
+          { `${user.lastName} ${user.firstName}` }
         </Text>
 
         <Text
@@ -70,17 +86,20 @@ export const UserDefaultScreen = () => {
             style={{
               marginBottom: 20,
             }}
+            onChangeText={ setIssue }
+            value={ issue }
           />
 
           <DropDown
             mode='outlined'
             label='Tipo de Caso'
-            visible={showDropDown}
+            visible={ showDropDown }
             showDropDown={() => setShowDropDown(true)}
             onDismiss={() => setShowDropDown(false)}
-            value={ocurrences}
-            setValue={setOcurrences}
-            list={ocurrencesList}
+            value={ ocurrence }
+            setValue={ setOcurrence }
+            list={ ocurrencesList }
+            dropDownContainerHeight={125}
           />
 
           <TextInput
@@ -90,6 +109,8 @@ export const UserDefaultScreen = () => {
             style={{
               marginTop: 20,
             }}
+            onChangeText={ setDescription }
+            value={ description }
           />
 
           <Button
@@ -98,10 +119,25 @@ export const UserDefaultScreen = () => {
               borderRadius: 6,
             }}
             mode='contained'
-            onPress={() => onPressToReport()}
+            onPress={ handleReport }
+            loading={ loading }
+            disabled={ loading }
           >
             Reportar
           </Button>
+
+          <Portal>
+            <Dialog visible={visible} onDismiss={hideDialog}>
+              <Dialog.Icon icon="checkbox-marked-circle" />
+              <Dialog.Title style={{textAlign: 'center'}}>Reportado</Dialog.Title>
+              <Dialog.Content>
+                <Text variant="bodyMedium">
+                  Tu caso será atendido en la brevedad posible 
+                  por la Oficina de Apoyo Técnico Informático
+                </Text>
+              </Dialog.Content>
+            </Dialog>
+          </Portal>
         </View>
       </ScrollView>
       

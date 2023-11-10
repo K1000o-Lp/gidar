@@ -1,40 +1,28 @@
-import { useEffect, useReducer } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PaperProvider } from 'react-native-paper';
-
-import { authReducer } from './auth/authReducer';
-import { AuthContext } from './auth/authContext';
 import { RouterApp } from './router/RouterApp';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import { theme } from './stylesheets/themes/LightTheme';
-
-const init = async () => {
-  return JSON.parse( await AsyncStorage.getItem('user') ) || { logged: false };
-}
+import { authReducer } from './reducers/authReducer';
+import { Provider } from 'react-redux';
 
 export default App = () => {
 
-  const [ user, dispatch ] = useReducer(authReducer, {}, init);
+  const rootReducer = combineReducers({
+    auth: authReducer,
+  });
 
-  useEffect(() => {
-    if( !user ) return;
-
-    (async () => {
-      await AsyncStorage.setItem('user', JSON.stringify(user));
-    })()
-  }, [ user ])
+  const store = configureStore({
+    reducer: rootReducer,
+  });
 
   return (
     <>
-      <AuthContext.Provider value={{
-        user,
-        dispatch
-      }}>
+      <Provider store={store}>
         <PaperProvider theme={ theme }>
           <RouterApp />
         </PaperProvider>
-      </AuthContext.Provider>
-
+      </Provider>
     </>
   );
 }

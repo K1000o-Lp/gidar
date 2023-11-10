@@ -4,7 +4,7 @@ import { OrderList } from '../order/OrderList'
 export const FinishedScreen = () => {
   return (
     <>
-      <OrderList status='finalizado' />
+      <OrderList status={ 3 } />
     </>
   )
 }

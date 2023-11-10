@@ -8,7 +8,8 @@ export const theme = {
     secondary: '#2196f3',
     surface: '#003785',
     elevation: {
-      level2: '#e9f9ff'
+      level2: '#e9f9ff',
+      level3: '#cad7db',
     }
   },
 }

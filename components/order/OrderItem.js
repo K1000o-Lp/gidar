@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-native';
 
 
 export const OrderItem = ({
-  id, 
-  asunto, 
-  tipo_caso, 
-  prioridad, 
-  dependencia
+  id,
+  issue,
+  dependency,
+  ocurrenceType,
+  priority,
 }) => {
   
   const navigate = useNavigate();
@@ -25,13 +25,14 @@ export const OrderItem = ({
       <View 
         style={{
           margin: 10,
+          flexDirection: 'row',
+          flex: 1,
         }}
       >
         
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flex: .7,
           }}
         >
           <Text
@@ -40,26 +41,27 @@ export const OrderItem = ({
               fontWeight: 'bold'
             }}
           >
-            {asunto}
+            {issue}
           </Text>
 
           <Text variant='bodyLarge'>
-            {prioridad}
+            {dependency}
           </Text>
         </View>
 
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between'
+            flex: .3,
+            alignItems: 'flex-end',
+            justifyContent: 'space-around',
           }}
         >
           <Text variant='bodyLarge'>
-            {dependencia}
+            {priority} 
           </Text>
 
           <Text variant='bodyLarge'>
-            {tipo_caso}
+            {ocurrenceType}
           </Text>
         </View>
       </View>

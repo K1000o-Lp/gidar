@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input: {
-    marginTop: 20
+    marginTop: 20,
   },
   button: {
     marginTop: 30,

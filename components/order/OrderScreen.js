@@ -1,39 +1,36 @@
-import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-native';
-import { getOrderById } from '../../selectors/getOrderById';
-import { Appbar, Text } from 'react-native-paper';
+import { ActivityIndicator, Appbar, Text } from 'react-native-paper';
 import { ScrollView, View } from 'react-native';
-import { ToggleForm } from './ToggleForm';
+import { useGetOrderById } from '../../hooks/useGetOrderById';
+import { ToggleProcess } from './ToggleProcess';
+import { ToggleFinish } from './ToggleFinish';
 
 export const OrderScreen = ({admin = false}) => {
 
   const navigate = useNavigate();
   const { OrderId } = useParams();
 
-  const order = useMemo( () => getOrderById(OrderId), [ OrderId ]);
+  const { data:order, loading } = useGetOrderById(OrderId);
 
   const goBack = () => {
     navigate( -1 );
   }
 
   const {
-    id,
-    asunto,
-    persona,
-    descripcion,
-    tipo_caso,
-    estado,
-    prioridad,
-    responsable,
-    dependencia,
+    person,
+    issue,
+    dependency,
+    status,
+    description,
   } = order;
 
   return (
     <>
       <Appbar.Header
         style={{
+          paddingTop: 25,
           height: 10,
-          backgroundColor: 'white',
+          backgroundColor: 'rgba(0, 0, 0, 0)',
         }}
       >
         <Appbar.Action 
@@ -42,52 +39,71 @@ export const OrderScreen = ({admin = false}) => {
         />
       </Appbar.Header>
 
-      <ScrollView
+      <View
         style={{
-          marginBottom: 155,
+          marginBottom: 65,
+          flex: 1,
+          justifyContent: loading ? 'center' : null,
+          alignItems: loading ? 'center' : null,
         }}
       >
-        <View
-          style={{
-            marginTop: 30,
-            marginHorizontal: 20,
-          }}
-        >
-          <Text 
-            variant='headlineLarge'
-            style={{
-              fontWeight: 'bold',
-            }}
-          >
-            { asunto }
-          </Text>
+        {
+          loading
+          ? (<ActivityIndicator
+              animating={ true }
+              size='large' 
+            />)
+          : (<ScrollView>
+              <View
+                style={{
+                  marginTop: 30,
+                  marginHorizontal: 20,
+                }}
+              >
+                <Text 
+                  variant='headlineLarge'
+                  style={{
+                    fontWeight: 'bold',
+                  }}
+                >
+                  { issue }
+                </Text>
+  
+                <Text
+                  variant='titleLarge'
+                  style={{
+                    marginTop: 10,
+                  }}
+                >
+                  { person } - { dependency }
+                </Text>
+  
+                <Text
+                  variant='labelLarge'
+                  style={{
+                    marginTop: 35,
+                  }}
+                >
+                  { description }
+                </Text>
+              
+                {
+                  admin && status === 'Pendiente'
+                  && (
+                    <ToggleProcess orderId={OrderId} />
+                  )
+                }
 
-          <Text
-            variant='titleLarge'
-            style={{
-              marginTop: 10,
-            }}
-          >
-            { persona } - { dependencia }
-          </Text>
-
-          <Text
-            variant='labelLarge'
-            style={{
-              marginTop: 35,
-            }}
-          >
-            { descripcion }
-          </Text>
-          
-          {
-            admin 
-            && (
-              <ToggleForm statusOrder={estado} responsable={responsable} />
-            )
-          }
-        </View>
-      </ScrollView>
+                {
+                  admin && status === 'En Proceso'
+                  && (
+                    <ToggleFinish orderId={OrderId} />
+                  )
+                }
+              </View>
+            </ScrollView>)
+        }
+      </View>
     </>
   )
 }

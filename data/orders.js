@@ -17,7 +17,7 @@ export const orders = [
     'asunto': "Equipo no da imagen",
     'dependencia': "Servicios Judiciales",
     'tipo_caso': "equipo",
-    'responsable': "null",
+    'responsable': null,
     'estado': "pendiente",
     'prioridad': "alta",
     'descripcion': "Hubo un bajón y ahora el equipo no me está dando imagen.",
