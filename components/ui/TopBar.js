@@ -14,16 +14,15 @@ export const TopBar = () => {
   }
 
   return (
-      <Appbar.Header 
-        dark={ true }
-        style={{
-          justifyContent: 'flex-end'
-        }}
-      >
-        <Appbar.Action 
-          icon="logout"
-          onPress={ onLogout } 
-        />
-      </Appbar.Header>
+    <Appbar.Header
+      style={{
+        justifyContent: 'flex-end'
+      }}
+    >
+      <Appbar.Action
+        icon="logout"
+        onPress={onLogout}
+      />
+    </Appbar.Header>
   )
 }

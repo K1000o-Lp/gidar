@@ -9,13 +9,13 @@ export const LayoutOatiRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path='pending' element={ <PendingScreen /> } />
+        <Route path='pending' element={<PendingScreen />} />
 
         <Route path='in-process' element={<InProcessScreen />} />
 
         <Route path='finished' element={<FinishedScreen />} />
 
-        <Route path='detailOrder/:OrderId' element={<OrderScreen admin={ true } />} />
+        <Route path='detailOrder/:OrderId' element={<OrderScreen admin={true} />} />
 
         <Route path='/' element={<Navigate to='pending' />} />
       </Routes>

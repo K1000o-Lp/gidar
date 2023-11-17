@@ -4,9 +4,9 @@ import { OrderItem } from './OrderItem';
 
 import { useGetOcurrencesByStatus } from '../../hooks/useGetOcurrencesByStatus';
 
-export const OrderList = ({status}) => {
-  
-  const { data:orders, loading } = useGetOcurrencesByStatus(status);
+export const OrderList = ({ status, dependency = null }) => {
+
+  const { data: orders, loading } = useGetOcurrencesByStatus(status);
 
   return (
     <View
@@ -17,19 +17,19 @@ export const OrderList = ({status}) => {
         alignItems: loading ? 'center' : null,
       }}
     >
-      { loading 
-        ? (<ActivityIndicator 
-            animating={ true } 
-            size='large' 
-          />) 
+      {loading
+        ? (<ActivityIndicator
+          animating={true}
+          size='large'
+        />)
         : (<FlatList
-            data={orders}
-            renderItem={({item}) => <OrderItem {...item} />}
-            keyExtractor={ item => item.id }
-          />)
+          data={orders}
+          renderItem={({ item }) => <OrderItem {...item} />}
+          keyExtractor={item => item.id}
+        />)
       }
-      
-      
+
+
     </ View>
   )
 }

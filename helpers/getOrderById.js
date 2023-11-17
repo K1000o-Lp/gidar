@@ -1,11 +1,11 @@
-import axios from '../config/axios.config';
+import { httpService } from '../config';
 
 export const getOrderById = async (orderId) => {
 
   try {
     const endpoint = `casos/${orderId}`;
 
-    const resp = await axios.get(endpoint);
+    const resp = await httpService.get(endpoint);
     const { data } = resp;
 
     const orderById = data.map((order) => {
@@ -23,7 +23,7 @@ export const getOrderById = async (orderId) => {
     });
 
     return orderById;
-  } catch( err ) {
+  } catch (err) {
     console.log(err);
   }
 }

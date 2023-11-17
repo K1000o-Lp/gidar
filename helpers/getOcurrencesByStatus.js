@@ -1,11 +1,11 @@
-import axios from '../config/axios.config';
+import { httpService } from '../config';
 
 export const getOcurrencesByStatus = async (ocurrenceStatus) => {
 
   try {
     const endpoint = `casos/estado/${ocurrenceStatus}`;
 
-    const resp = await axios.get(endpoint);
+    const resp = await httpService.get(endpoint);
     const { data } = resp;
 
     const ocurrencesByStatus = data.map((ocurrenceByStatus) => {
@@ -23,7 +23,7 @@ export const getOcurrencesByStatus = async (ocurrenceStatus) => {
     });
 
     return ocurrencesByStatus;
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 };

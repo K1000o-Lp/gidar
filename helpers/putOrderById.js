@@ -1,4 +1,4 @@
-import axios from '../config/axios.config';
+import { httpService } from '../config';
 
 export const putOrderById = async (orderId, statusId) => {
 
@@ -8,10 +8,10 @@ export const putOrderById = async (orderId, statusId) => {
       id_estado: statusId,
     });
 
-    const resp = await axios.put(endpoint, body);
+    const resp = await httpService.put(endpoint, body);
 
     return resp;
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }

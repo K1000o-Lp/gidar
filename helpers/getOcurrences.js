@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react'
-import axios from '../config/axios.config';
+import { httpService } from '../config';
 
 
 export const getOcurrences = async () => {
 
   try {
     const endpoint = 'tipo_caso/all';
-    
-    const resp = await axios.get(endpoint);
+
+    const resp = await httpService.get(endpoint);
     const { data } = resp;
 
     const ocurrences = data.map((ocurrence) => {
@@ -18,7 +17,7 @@ export const getOcurrences = async () => {
     });
 
     return ocurrences;
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }

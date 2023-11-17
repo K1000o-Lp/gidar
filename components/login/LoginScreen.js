@@ -18,63 +18,63 @@ export const LoginScreen = () => {
 
   const handleLogin = () => {
 
-    if(username.trim().length && password.trim().length > 2) {
+    if (username.trim().length && password.trim().length > 2) {
       dispatch(login(username, password));
     }
 
   }
-  
+
   useEffect(() => {
-    if(authState.user) {
+    if (authState.user) {
       navigate(authState.user.rol);
     }
   }, [authState.user])
 
   return (
-    <SafeAreaView style={ styles.container }>
+    <SafeAreaView style={styles.container}>
       <StatusBar
-        animated={ true }
+        animated={true}
         backgroundColor='#ffff'
         barStyle='dark-content'
         showHideTransition='fade'
       />
 
-      <View style={ styles.logoArea }>
-        <Text style={ styles.bigText }>
+      <View style={styles.logoArea}>
+        <Text style={styles.bigText}>
           OATI
         </Text>
 
-        <Text style={ styles.smallText }>
+        <Text style={styles.smallText}>
           Oficina de Apoyo Técnico Informático
         </Text>
       </View>
 
-      <View style={ styles.bodyArea }>
-          <TextInput
-            mode='outlined'
-            label='Usuario'
-            onChangeText={setUsername}
-            value={username}
-          />
+      <View style={styles.bodyArea}>
+        <TextInput
+          mode='outlined'
+          label='Usuario'
+          onChangeText={setUsername}
+          value={username}
+        />
 
-          <TextInput
-            style={ styles.input }
-            mode='outlined'
-            label='Contraseña'
-            onChangeText={setPassword}
-            value={password}
-            secureTextEntry={ true }
-          />
+        <TextInput
+          style={styles.input}
+          mode='outlined'
+          label='Contraseña'
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry={true}
+        />
 
-          <Button 
-            style={ styles.button }
-            mode='contained'
-            onPress={ handleLogin }
-            disabled={authState.loading}
-            loading={authState.loading}
-          >
-            Iniciar Sesión
-          </Button>
+        <Button
+          style={styles.button}
+          mode='contained'
+          onPress={handleLogin}
+          disabled={authState.loading}
+          loading={authState.loading}
+        >
+          Iniciar Sesión
+        </Button>
       </View>
     </SafeAreaView>
   )

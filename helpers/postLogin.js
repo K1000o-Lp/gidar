@@ -1,4 +1,4 @@
-import axios from '../config/axios.config';
+import { httpService } from '../config';
 
 export const postLogin = async (username, password) => {
 
@@ -8,12 +8,12 @@ export const postLogin = async (username, password) => {
       nombre_usuario: username,
       contrasena: password,
     });
-  
-    const resp = await axios.post(endpoint, body)
+
+    const resp = await httpService.post(endpoint, body)
     const { data } = resp;
-  
+
     const user = data.map((user) => {
-  
+
       return {
         id: user.id_usuario,
         username: user.nombre_usuario,
@@ -23,9 +23,9 @@ export const postLogin = async (username, password) => {
         rol: user.role.descripcion,
       }
     });
-  
+
     return user;
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 };

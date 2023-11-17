@@ -1,5 +1,4 @@
-import axios from '../config/axios.config';
-
+import { httpService } from '../config';
 
 export const postOcurrence = async (
   idUser,
@@ -19,10 +18,10 @@ export const postOcurrence = async (
       descripcion_breve: description,
     });
 
-    const resp = await axios.post(endpoint, body);
+    const resp = await httpService.post(endpoint, body);
 
     return resp;
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }
