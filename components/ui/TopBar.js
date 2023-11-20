@@ -1,28 +1,15 @@
-import { Appbar } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-native';
-import { logout } from '../../actions/authActions';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Children } from 'react';
 
-export const TopBar = () => {
-  const dispatch = useDispatch();
-  const authState = useSelector((state) => state.auth);
-  const navigate = useNavigate();
+export const TopBar = ({ children }) => {
 
-  const onLogout = () => {
-    dispatch(logout());
-    navigate('/');
-  }
+  const Tab = createMaterialTopTabNavigator();
 
   return (
-    <Appbar.Header
-      style={{
-        justifyContent: 'flex-end'
-      }}
-    >
-      <Appbar.Action
-        icon="logout"
-        onPress={onLogout}
-      />
-    </Appbar.Header>
+    <Tab.Navigator>
+      {
+        Children.map(children, child => child)
+      }
+    </Tab.Navigator>
   )
 }

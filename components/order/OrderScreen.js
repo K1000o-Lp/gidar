@@ -1,19 +1,14 @@
-import { useNavigate, useParams } from 'react-router-native';
 import { ActivityIndicator, Appbar, Text } from 'react-native-paper';
 import { ScrollView, View } from 'react-native';
 import { useGetOrderById } from '../../hooks/useGetOrderById';
 import { ToggleProcess } from './ToggleProcess';
 import { ToggleFinish } from './ToggleFinish';
 
-export const OrderScreen = ({admin = false}) => {
+export const OrderScreen = ({ admin = false }) => {
 
-  const navigate = useNavigate();
-  const { OrderId } = useParams();
-
-  const { data:order, loading } = useGetOrderById(OrderId);
+  const { data: order, loading } = useGetOrderById(OrderId);
 
   const goBack = () => {
-    navigate( -1 );
   }
 
   const {
@@ -33,9 +28,9 @@ export const OrderScreen = ({admin = false}) => {
           backgroundColor: 'rgba(0, 0, 0, 0)',
         }}
       >
-        <Appbar.Action 
+        <Appbar.Action
           icon='arrow-left'
-          onPress={ goBack }
+          onPress={goBack}
         />
       </Appbar.Header>
 
@@ -49,44 +44,44 @@ export const OrderScreen = ({admin = false}) => {
       >
         {
           loading
-          ? (<ActivityIndicator
-              animating={ true }
-              size='large' 
+            ? (<ActivityIndicator
+              animating={true}
+              size='large'
             />)
-          : (<ScrollView>
+            : (<ScrollView>
               <View
                 style={{
                   marginTop: 30,
                   marginHorizontal: 20,
                 }}
               >
-                <Text 
+                <Text
                   variant='headlineLarge'
                   style={{
                     fontWeight: 'bold',
                   }}
                 >
-                  { issue }
+                  {issue}
                 </Text>
-  
+
                 <Text
                   variant='titleLarge'
                   style={{
                     marginTop: 10,
                   }}
                 >
-                  { person } - { dependency }
+                  {person} - {dependency}
                 </Text>
-  
+
                 <Text
                   variant='labelLarge'
                   style={{
                     marginTop: 35,
                   }}
                 >
-                  { description }
+                  {description}
                 </Text>
-              
+
                 {
                   admin && status === 'Pendiente'
                   && (

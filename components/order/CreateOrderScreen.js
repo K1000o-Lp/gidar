@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { useGetOcurrences } from '../../hooks/useGetOcurrences';
 import { postOcurrence } from '../../helpers/postOcurrence';
 
-export const CreateOrderScreen = ({ setIndex }) => {
+export const CreateOrderScreen = () => {
 
   const [loading, setLoading] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -25,7 +25,6 @@ export const CreateOrderScreen = ({ setIndex }) => {
   const showDialog = () => setVisible(true);
 
   const hideDialog = () => {
-    setIndex(0);
     setVisible(false);
   }
 

@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { Button } from 'react-native-paper';
 import { View } from 'react-native';
-import { useNavigate } from 'react-router-native';
 
 import { putOrderById } from '../../helpers/putOrderById';
 
-export const ToggleProcess = ({orderId}) => {
+export const ToggleProcess = ({ orderId }) => {
 
   const PROCESS = 2;
 
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const handleProcessOrder = () => {
@@ -18,7 +16,6 @@ export const ToggleProcess = ({orderId}) => {
     putOrderById(orderId, PROCESS)
       .then(response => {
         setLoading(false);
-        navigate(-1);
       });
   }
 
@@ -31,7 +28,7 @@ export const ToggleProcess = ({orderId}) => {
           justifyContent: 'center',
           alignItems: 'center'
         }}
-      > 
+      >
         <Button
           mode='contained'
           style={{
@@ -40,7 +37,7 @@ export const ToggleProcess = ({orderId}) => {
           }}
           disabled={loading}
           loading={loading}
-          onPress={ handleProcessOrder }
+          onPress={handleProcessOrder}
         >
           Procesar
         </Button>

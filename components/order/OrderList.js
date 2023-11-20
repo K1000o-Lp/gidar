@@ -11,7 +11,6 @@ export const OrderList = ({ status, dependency = null }) => {
   return (
     <View
       style={{
-        marginBottom: 65,
         flex: 1,
         justifyContent: loading ? 'center' : null,
         alignItems: loading ? 'center' : null,

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput, Button } from 'react-native-paper';
-import { useNavigate } from 'react-router-native';
 
 import { styles } from '../../stylesheets/login/loginStyles';
 import { login } from '../../actions/authActions';
@@ -14,7 +13,6 @@ export const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const authState = useSelector((state) => state.auth);
-  const navigate = useNavigate();
 
   const handleLogin = () => {
 
@@ -23,12 +21,6 @@ export const LoginScreen = () => {
     }
 
   }
-
-  useEffect(() => {
-    if (authState.user) {
-      navigate(authState.user.rol);
-    }
-  }, [authState.user])
 
   return (
     <SafeAreaView style={styles.container}>

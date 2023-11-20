@@ -1,6 +1,5 @@
 import { View } from 'react-native';
 import { Text, TouchableRipple } from 'react-native-paper';
-import { useNavigate } from 'react-router-native';
 
 
 export const OrderItem = ({
@@ -10,26 +9,23 @@ export const OrderItem = ({
   ocurrenceType,
   priority,
 }) => {
-  
-  const navigate = useNavigate();
 
   const goDetails = () => {
-    navigate(`../detailOrder/${id}`);
   }
 
   return (
     <TouchableRipple
       rippleColor='rgba(0, 0, 0, .32)'
-      onPress={ goDetails }
+      onPress={goDetails}
     >
-      <View 
+      <View
         style={{
           margin: 10,
           flexDirection: 'row',
           flex: 1,
         }}
       >
-        
+
         <View
           style={{
             flex: .7,
@@ -57,7 +53,7 @@ export const OrderItem = ({
           }}
         >
           <Text variant='bodyLarge'>
-            {priority} 
+            {priority}
           </Text>
 
           <Text variant='bodyLarge'>
