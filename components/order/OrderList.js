@@ -2,11 +2,11 @@ import { FlatList, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { OrderItem } from './OrderItem';
 
-import { useGetOcurrencesByStatus } from '../../hooks/useGetOcurrencesByStatus';
+import { useGetOrders } from '../../hooks/useGetOrders';
 
 export const OrderList = ({ status, dependency = null }) => {
 
-  const { data: orders, loading } = useGetOcurrencesByStatus(status);
+  const { data: orders, loading } = useGetOrders(status, dependency);
 
   return (
     <View

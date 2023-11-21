@@ -1,18 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Icon, Text } from 'react-native-paper';
+import { Icon } from 'react-native-paper';
 
 import { BottomBar } from '../../../components/ui/BottomBar';
 import { CreateOrderScreen } from '../../../components/order/CreateOrderScreen';
 import { Inbox } from './Inbox';
-
-const MiCuenta = () => {
-  return (
-    <Text>
-      Mi Cuenta
-    </Text>
-  )
-}
+import { Profile } from '../../../components/user/Profile';
 
 export const LayoutDefault = () => {
 
@@ -25,9 +18,9 @@ export const LayoutDefault = () => {
           name='Inbox'
           component={Inbox}
           options={{
-            tabBarLabel: 'Ordenes',
+            tabBarLabel: 'Mis Ordenes',
             tabBarIcon: ({ color, size }) => {
-              return <Icon source="home" size={size} color={color} />;
+              return <Icon source="sticker-text" size={size} color={color} />;
             },
           }}
         />
@@ -45,7 +38,7 @@ export const LayoutDefault = () => {
 
         <Tab.Screen
           name='Account'
-          component={MiCuenta}
+          component={Profile}
           options={{
             tabBarLabel: 'Mi Cuenta',
             tabBarIcon: ({ color, size }) => {
