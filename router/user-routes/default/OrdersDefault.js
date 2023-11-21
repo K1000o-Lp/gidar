@@ -4,7 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { PendingUserScreen } from '../../../components/pending/PendingUserScreen';
 import { FinishedUserScreen } from '../../../components/finished/FinishedUserScreen';
 
-export const Orders = () => {
+export const OrdersDefault = () => {
 
   const Tab = createMaterialTopTabNavigator();
   return (

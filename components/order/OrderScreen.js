@@ -3,12 +3,19 @@ import { ScrollView, View } from 'react-native';
 import { useGetOrderById } from '../../hooks/useGetOrderById';
 import { ToggleProcess } from './ToggleProcess';
 import { ToggleFinish } from './ToggleFinish';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 export const OrderScreen = ({ admin = false }) => {
 
-  const { data: order, loading } = useGetOrderById(OrderId);
+  const route = useRoute();
+  const navigation = useNavigation();
+
+  const { orderId } = route.params;
+
+  const { data: order, loading } = useGetOrderById(orderId);
 
   const goBack = () => {
+    navigation.goBack();
   }
 
   const {
@@ -85,14 +92,14 @@ export const OrderScreen = ({ admin = false }) => {
                 {
                   admin && status === 'Pendiente'
                   && (
-                    <ToggleProcess orderId={OrderId} />
+                    <ToggleProcess orderId={orderId} />
                   )
                 }
 
                 {
                   admin && status === 'En Proceso'
                   && (
-                    <ToggleFinish orderId={OrderId} />
+                    <ToggleFinish orderId={orderId} />
                   )
                 }
               </View>

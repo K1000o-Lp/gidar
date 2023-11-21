@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
 import { Text, TouchableRipple } from 'react-native-paper';
 
@@ -10,7 +11,12 @@ export const OrderItem = ({
   priority,
 }) => {
 
+  const navigation = useNavigation();
+
   const goDetails = () => {
+    navigation.navigate('Detail', {
+      orderId: id,
+    });
   }
 
   return (

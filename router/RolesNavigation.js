@@ -4,6 +4,7 @@ import { useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 
 import { LayoutDefault } from './user-routes/default/LayoutDefault';
+import { LayoutOati } from './user-routes/oati/LayoutOati';
 
 export const RolesNavigation = () => {
 

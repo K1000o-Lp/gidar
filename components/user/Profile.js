@@ -4,7 +4,7 @@ import { Avatar, Button, Text, useTheme } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../actions/authActions';
 
-export const Profile = ({ navigation }) => {
+export const Profile = () => {
 
   const authState = useSelector(state => state.auth);
   const theme = useTheme();
@@ -48,8 +48,13 @@ export const Profile = ({ navigation }) => {
         <Button
           mode='elevated'
           style={{
-            marginTop: 20
+            marginTop: 20,
+            borderRadius: 6,
           }}
+          contentStyle={{
+            flexDirection: 'row-reverse',
+          }}
+          icon='logout'
           onPress={onPressing}
         >
           Cerrar Sesión

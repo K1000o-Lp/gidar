@@ -4,7 +4,7 @@ import { Icon } from 'react-native-paper';
 
 import { BottomBar } from '../../../components/ui/BottomBar';
 import { CreateOrderScreen } from '../../../components/order/CreateOrderScreen';
-import { Inbox } from './Inbox';
+import { InboxDefault } from './InboxDefault';
 import { Profile } from '../../../components/user/Profile';
 
 export const LayoutDefault = () => {
@@ -16,7 +16,7 @@ export const LayoutDefault = () => {
       <BottomBar>
         <Tab.Screen
           name='Inbox'
-          component={Inbox}
+          component={InboxDefault}
           options={{
             tabBarLabel: 'Mis Ordenes',
             tabBarIcon: ({ color, size }) => {
