@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { Button, Dialog, Portal, Text, TextInput, useTheme } from 'react-native-paper';
+import { Button, Dialog, HelperText, Portal, Text, TextInput } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import { useSelector } from 'react-redux';
 
@@ -99,17 +99,17 @@ export const CreateOrderScreen = () => {
               <TextInput
                 mode='outlined'
                 label='Breve Descripción'
-                multiline
                 style={{
                   marginTop: 20,
                 }}
+                multiline
                 onChangeText={setDescription}
                 value={description}
               />
 
               <Button
                 style={{
-                  marginTop: 35,
+                  marginTop: 20,
                   borderRadius: 6,
                 }}
                 mode='contained'

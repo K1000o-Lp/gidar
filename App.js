@@ -5,6 +5,7 @@ import { theme } from './stylesheets/themes/LightTheme';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
+
 export default App = () => {
 
   return (

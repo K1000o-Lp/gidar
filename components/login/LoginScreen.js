@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, HelperText } from 'react-native-paper';
 
 import { styles } from '../../stylesheets/login/loginStyles';
 import { login } from '../../actions/authActions';
+import { socket } from '../../config';
 
 export const LoginScreen = () => {
 
@@ -17,9 +18,12 @@ export const LoginScreen = () => {
   const handleLogin = () => {
 
     if (username.trim().length && password.trim().length > 2) {
-      dispatch(login(username, password));
+      dispatch(login(username.trim(), password));
     }
+  }
 
+  const hasError = () => {
+    return authState.error ? true : false;
   }
 
   return (
@@ -47,6 +51,7 @@ export const LoginScreen = () => {
           label='Usuario'
           onChangeText={setUsername}
           value={username}
+          error={hasError()}
         />
 
         <TextInput
@@ -56,7 +61,12 @@ export const LoginScreen = () => {
           onChangeText={setPassword}
           value={password}
           secureTextEntry={true}
+          error={hasError()}
         />
+
+        <HelperText type='error' visible={hasError()}>
+          {authState.error}
+        </HelperText>
 
         <Button
           style={styles.button}
