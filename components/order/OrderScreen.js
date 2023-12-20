@@ -1,22 +1,25 @@
-import { ActivityIndicator, Appbar, Text } from 'react-native-paper';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { ScrollView, View } from 'react-native';
-import { useGetOrderById } from '../../hooks/useGetOrderById';
+import { ActivityIndicator, Button, Text, useTheme } from 'react-native-paper';
+
 import { ToggleProcess } from './ToggleProcess';
 import { ToggleFinish } from './ToggleFinish';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useGetOrderById } from '../../hooks/useGetOrderById';
+import { socket } from '../../config';
 
-export const OrderScreen = ({ admin = false }) => {
+export const OrderScreen = () => {
 
+  const theme = useTheme();
   const route = useRoute();
   const navigation = useNavigation();
+  const authState = useSelector(state => state.auth);
 
+  const { rol } = authState.user;
   const { orderId } = route.params;
 
   const { data: order, loading } = useGetOrderById(orderId);
-
-  const goBack = () => {
-    navigation.goBack();
-  }
 
   const {
     person,
@@ -26,85 +29,125 @@ export const OrderScreen = ({ admin = false }) => {
     description,
   } = order;
 
-  return (
-    <>
-      <Appbar.Header
-        style={{
-          paddingTop: 25,
-          height: 10,
-          backgroundColor: 'rgba(0, 0, 0, 0)',
-        }}
-      >
-        <Appbar.Action
-          icon='arrow-left'
-          onPress={goBack}
-        />
-      </Appbar.Header>
+  const goMessages = () => {
+    navigation.navigate('Chat');
+  }
 
+  useEffect(() => {
+    socket.on('settedOrderInProgress', () => {
+      navigation.replace('Detail', {
+        orderId,
+      })
+    });
+  }, [])
+
+  if (loading) {
+    return (
       <View
         style={{
-          marginBottom: 65,
           flex: 1,
-          justifyContent: loading ? 'center' : null,
-          alignItems: loading ? 'center' : null,
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        {
-          loading
-            ? (<ActivityIndicator
-              animating={true}
-              size='large'
-            />)
-            : (<ScrollView>
-              <View
-                style={{
-                  marginTop: 30,
-                  marginHorizontal: 20,
-                }}
-              >
-                <Text
-                  variant='headlineLarge'
-                  style={{
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {issue}
-                </Text>
+        <ActivityIndicator size='large' />
+      </View>
+    )
+  }
 
-                <Text
-                  variant='titleLarge'
+  return (
+    <>
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
+        <ScrollView>
+          <View
+            style={{
+              marginTop: 15,
+              marginHorizontal: 20,
+            }}
+          >
+            <Text
+              variant='titleLarge'
+              style={{
+                fontWeight: 'bold',
+              }}
+            >
+              {issue}
+            </Text>
+
+            <Text
+              variant='labelLarge'
+              style={{
+                marginTop: 5,
+              }}
+            >
+              {person} - {dependency}
+            </Text>
+
+            <Text
+              variant='bodyMedium'
+              style={{
+                marginTop: 20,
+              }}
+            >
+              {description}
+            </Text>
+
+            {
+              rol != 'default' && status === 'Pendiente'
+              && (
+                <ToggleProcess orderId={orderId} />
+              )
+            }
+
+            {
+              status === 'En Proceso'
+              && (
+                <ToggleFinish orderId={orderId} />
+              )
+            }
+
+            {
+              status === 'En Proceso'
+              && (
+                <Button
+                  mode='elevated'
+                  icon='android-messages'
+                  contentStyle={{
+                    flexDirection: 'row-reverse'
+                  }}
                   style={{
                     marginTop: 10,
+                    borderRadius: 6,
                   }}
+                  onPress={goMessages}
                 >
-                  {person} - {dependency}
-                </Text>
+                  Mensajes
+                </Button>
+              )
+            }
 
-                <Text
-                  variant='labelLarge'
+            {
+              status != 'Finalizado'
+              && (
+                <Button
+                  mode='contained'
+                  buttonColor={theme.colors.error}
                   style={{
-                    marginTop: 35,
+                    marginTop: 10,
+                    borderRadius: 6,
                   }}
                 >
-                  {description}
-                </Text>
+                  Cancelar Orden
+                </Button>
+              )
+            }
+          </View>
 
-                {
-                  admin && status === 'Pendiente'
-                  && (
-                    <ToggleProcess orderId={orderId} />
-                  )
-                }
-
-                {
-                  admin && status === 'En Proceso'
-                  && (
-                    <ToggleFinish orderId={orderId} />
-                  )
-                }
-              </View>
-            </ScrollView>)
-        }
+        </ScrollView>
       </View>
     </>
   )

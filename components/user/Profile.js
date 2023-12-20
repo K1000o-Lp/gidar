@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Avatar, Button, Text, useTheme } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../actions/authActions';
+import { logout } from '../../actions';
 
 export const Profile = () => {
 

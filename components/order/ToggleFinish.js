@@ -1,32 +1,24 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
-
-import { putOrderById } from '../../helpers/putOrderById';
+import { socket } from '../../config';
 
 export const ToggleFinish = ({ orderId }) => {
-
-  const FINISH = 3;
-
   const [loading, setLoading] = useState(false);
 
   const handleFinishOrder = () => {
     setLoading(true);
-
-    putOrderById(orderId, FINISH)
-      .then(response => {
-        setLoading(false);
-      })
+    socket.emit('setOrderFinished', orderId);
+    setLoading(false);
   }
 
   return (
     <>
       <View
         style={{
-          marginTop: 40,
-          flexDirection: 'row',
+          marginTop: 20,
+          flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center'
         }}
       >
         <Button
@@ -39,7 +31,7 @@ export const ToggleFinish = ({ orderId }) => {
           loading={loading}
           onPress={handleFinishOrder}
         >
-          Finalizar
+          Finalizar Orden
         </Button>
       </View>
     </>

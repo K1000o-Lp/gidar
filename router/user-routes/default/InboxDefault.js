@@ -16,7 +16,15 @@ export const InboxDefault = () => {
       initialRouteName='Orders'
     >
       <Stack.Screen name='Orders' component={OrdersDefault} />
-      <Stack.Screen name='Detail' component={OrderScreen} />
+
+      <Stack.Screen
+        name='Detail'
+        component={OrderScreen}
+        options={{
+          title: 'Detalle de la Orden',
+          headerShown: true,
+        }}
+      />
     </Stack.Navigator>
   )
 }

@@ -1,45 +1,56 @@
 import { useState } from 'react';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 import { View } from 'react-native';
+import DropDown from 'react-native-paper-dropdown';
 
-import { putOrderById } from '../../helpers/putOrderById';
+import { useGetResponsables } from '../../hooks/useGetResponsables';
+import { socket } from '../../config';
 
 export const ToggleProcess = ({ orderId }) => {
 
-  const PROCESS = 2;
-
+  const [showDropDown, setShowDropDown] = useState(false)
+  const [responsable, setResponsable] = useState('');
   const [loading, setLoading] = useState(false);
+  const responsablesList = useGetResponsables();
+  const theme = useTheme();
 
   const handleProcessOrder = () => {
     setLoading(true);
-
-    putOrderById(orderId, PROCESS)
-      .then(response => {
-        setLoading(false);
-      });
+    console.log(responsable);
+    socket.emit('setOrderInProgress', { orderId, responsable });
+    setLoading(false);
   }
 
   return (
     <>
       <View
         style={{
-          marginTop: 40,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center'
+          marginTop: 20,
         }}
       >
+        <DropDown
+          mode='outlined'
+          label='Responsable'
+          visible={showDropDown}
+          showDropDown={() => setShowDropDown(true)}
+          onDismiss={() => setShowDropDown(false)}
+          value={responsable}
+          setValue={setResponsable}
+          list={responsablesList}
+          dropDownContainerHeight={125}
+        />
+
         <Button
           mode='contained'
           style={{
-            justifyContent: 'center',
-            borderRadius: 6
+            marginTop: 25,
+            borderRadius: 6,
           }}
           disabled={loading}
           loading={loading}
           onPress={handleProcessOrder}
         >
-          Procesar
+          Procesar Orden
         </Button>
       </View>
     </>

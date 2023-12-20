@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getOrdersBystatus } from '../helpers/getOrdersByStatus';
 import { getOrdersByDependencyAndStatus } from '../helpers/getOrdersByDependencyAndStatus';
+import { socket } from '../config';
 
 
 export const useGetOrders = (status, dependency) => {
-
 
   const [state, setState] = useState({
     data: [],
@@ -16,7 +15,7 @@ export const useGetOrders = (status, dependency) => {
 
     if (dependency) {
       getOrdersByDependencyAndStatus(dependency, status)
-        .then(orders => {
+        .then((orders) => {
 
           setState({
             data: orders,
@@ -25,15 +24,52 @@ export const useGetOrders = (status, dependency) => {
         });
     } else {
       getOrdersBystatus(status)
-        .then(ocurrencesByStatus => {
+        .then((orders) => {
 
           setState({
-            data: ocurrencesByStatus,
+            data: orders,
             loading: false,
           });
         });
     }
-  }, [status, dependency]);
 
-  return state;
+  }, []);
+
+  useEffect(() => {
+    socket.on('settedOrderFinished', ([orderFinished]) => {
+
+      setState(state => (
+        {
+          data: [orderFinished, ...state.data.filter(order => order.id_caso != orderFinished.id_caso)],
+          loading: state.loading,
+        }
+      ))
+    })
+  }, [])
+
+  useEffect(() => {
+    socket.on('settedOrderInProgress', ([orderProgress]) => {
+
+      setState(state => (
+        {
+          data: [orderProgress, ...state.data.filter(order => order.id_caso != orderProgress.id_caso)],
+          loading: state.loading,
+        }
+      ));
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on('generatedCase', ([order]) => {
+      setState(state => (
+        {
+          data: [order, ...state.data],
+          loading: state.loading,
+        }
+      ));
+    });
+  }, []);
+
+
+  return state.data.filter((order) => order.estado.id_estado === status);
 }

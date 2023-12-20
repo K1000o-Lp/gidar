@@ -1,6 +1,6 @@
 import { socket } from '../config';
 import { postLogin } from '../helpers/postLogin';
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from '../types/';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from '../types';
 
 export const login = (username, password) => {
   return (dispatch) => {
@@ -13,7 +13,12 @@ export const login = (username, password) => {
           payload: data,
         });
 
-        socket.emit('connection', data);
+        const room = {
+          dependencia: data.dependency,
+          rol: data.rol,
+        }
+
+        socket.emit('connection', room);
       })
       .catch((error) => {
         dispatch({
@@ -21,6 +26,7 @@ export const login = (username, password) => {
           error: 'Usuario y/o contraseña son incorrectos.'
         })
       });
+
   };
 };
 

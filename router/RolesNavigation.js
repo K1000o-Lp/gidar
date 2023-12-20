@@ -3,22 +3,24 @@ import { StatusBar } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 
-import { LayoutDefault } from './user-routes/default/LayoutDefault';
-import { LayoutOati } from './user-routes/oati/LayoutOati';
+import { UiDefault } from './user-routes/default/UiDefault';
+import { UiOati } from './user-routes/oati/UiOati';
+import { socket } from '../config';
+import { useEffect } from 'react';
 
 export const RolesNavigation = () => {
 
   const authState = useSelector(state => state.auth);
-  const { rol } = authState.user;
+  console.log(authState);
+  const { user } = authState;
   const theme = useTheme();
   const Stack = createNativeStackNavigator();
 
   const RenderByRole = () => {
-
-    switch (rol) {
+    switch (user?.rol) {
       case 'oati':
         return (
-          <Stack.Screen name='Oati' component={LayoutOati} />
+          <Stack.Screen name='Oati' component={UiOati} />
         );
 
       case 'director':
@@ -28,7 +30,7 @@ export const RolesNavigation = () => {
 
       default:
         return (
-          <Stack.Screen name='Default' component={LayoutDefault} />
+          <Stack.Screen name='Default' component={UiDefault} />
         );
     }
   }

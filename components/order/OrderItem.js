@@ -1,21 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
+import { memo } from 'react';
 import { View } from 'react-native';
 import { Text, TouchableRipple } from 'react-native-paper';
 
-
-export const OrderItem = ({
-  id,
-  issue,
-  dependency,
-  ocurrenceType,
-  priority,
+export const OrderItem = memo(({
+  id_caso,
+  asunto,
+  dependencia,
 }) => {
 
   const navigation = useNavigation();
 
   const goDetails = () => {
     navigation.navigate('Detail', {
-      orderId: id,
+      orderId: id_caso,
     });
   }
 
@@ -27,46 +25,22 @@ export const OrderItem = ({
       <View
         style={{
           margin: 10,
-          flexDirection: 'row',
           flex: 1,
         }}
       >
-
-        <View
+        <Text
+          variant='titleLarge'
           style={{
-            flex: .7,
+            fontWeight: 'bold'
           }}
         >
-          <Text
-            variant='titleLarge'
-            style={{
-              fontWeight: 'bold'
-            }}
-          >
-            {issue}
-          </Text>
+          {asunto}
+        </Text>
 
-          <Text variant='bodyLarge'>
-            {dependency}
-          </Text>
-        </View>
-
-        <View
-          style={{
-            flex: .3,
-            alignItems: 'flex-end',
-            justifyContent: 'space-around',
-          }}
-        >
-          <Text variant='bodyLarge'>
-            {priority}
-          </Text>
-
-          <Text variant='bodyLarge'>
-            {ocurrenceType}
-          </Text>
-        </View>
+        <Text variant='bodyLarge'>
+          {dependencia.descripcion}
+        </Text>
       </View>
-    </TouchableRipple>
+    </TouchableRipple >
   )
-}
+})

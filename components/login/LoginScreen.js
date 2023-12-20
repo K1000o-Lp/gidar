@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput, Button, HelperText } from 'react-native-paper';
 
 import { styles } from '../../stylesheets/login/loginStyles';
-import { login } from '../../actions/authActions';
-import { socket } from '../../config';
+import { login } from '../../actions';
 
 export const LoginScreen = () => {
 
