@@ -1,4 +1,8 @@
 import { io } from 'socket.io-client';
 import { envs } from './envs';
 
-export const socket = io(envs.DEV);
+export const socket = io(envs.DEV, {
+  auth: {
+    serverOffset: 0,
+  }
+});

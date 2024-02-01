@@ -32,6 +32,9 @@ export const login = (username, password) => {
 
 export const logout = () => {
   return (dispatch) => {
+
+    socket.disconnect();
+
     dispatch({ type: LOGOUT });
   };
 };

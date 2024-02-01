@@ -27,19 +27,30 @@ export const OrderScreen = () => {
     dependency,
     status,
     description,
+    responsable,
   } = order;
 
   const goMessages = () => {
-    navigation.navigate('Chat');
+    navigation.navigate('Chat', {
+      orderId,
+    });
   }
 
   useEffect(() => {
     socket.on('settedOrderInProgress', () => {
       navigation.replace('Detail', {
         orderId,
-      })
+      });
     });
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    socket.on('settedOrderFinished', () => {
+      navigation.replace('Detail', {
+        orderId,
+      });
+    });
+  }, []);
 
   if (loading) {
     return (
@@ -104,7 +115,7 @@ export const OrderScreen = () => {
             }
 
             {
-              status === 'En Proceso'
+              rol != 'default' && status === 'En Proceso'
               && (
                 <ToggleFinish orderId={orderId} />
               )

@@ -9,6 +9,7 @@ export const ToggleFinish = ({ orderId }) => {
   const handleFinishOrder = () => {
     setLoading(true);
     socket.emit('setOrderFinished', orderId);
+    console.log(orderId);
     setLoading(false);
   }
 

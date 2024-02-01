@@ -1,22 +1,37 @@
-import React, { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { GiftedChat, Send } from 'react-native-gifted-chat';
-import { IconButton, TextInput, useTheme } from 'react-native-paper';
-import { locale } from 'dayjs/locale/es-mx';
+import { IconButton, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
+import { useRoute } from '@react-navigation/native';
+
+import { socket } from '../../config';
 
 export const ChatScreen = () => {
 
+  const router = useRoute();
   const [messages, setMessages] = useState([]);
   const theme = useTheme();
   const authState = useSelector(state => state.auth);
 
+  const { orderId } = router.params;
   const { user } = authState;
 
-  const onSend = (messages) => {
+  const onSend = useCallback((messages = []) => {
+
+    socket.emit('message', orderId, messages);
+
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, messages),
     )
-  }
+  }, []);
+
+  useEffect(() => {
+    socket.on('message', (messages) => {
+      setMessages(previousMessages =>
+        GiftedChat.append(previousMessages, messages),
+      )
+    });
+  }, []);
 
   return (
     <>
@@ -25,9 +40,9 @@ export const ChatScreen = () => {
         onSend={messages => onSend(messages)}
         user={{
           _id: user.id,
+          name: `${user.primer_nombre} ${user.primer_apellido}`,
         }}
         placeholder='Escribe un mensaje...'
-        locale={locale}
         renderSend={(props) => {
           return (
             <Send {...props}>

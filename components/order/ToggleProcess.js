@@ -16,7 +16,6 @@ export const ToggleProcess = ({ orderId }) => {
 
   const handleProcessOrder = () => {
     setLoading(true);
-    console.log(responsable);
     socket.emit('setOrderInProgress', { orderId, responsable });
     setLoading(false);
   }

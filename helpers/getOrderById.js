@@ -15,7 +15,7 @@ export const getOrderById = async (orderId) => {
         issue: order.asunto,
         dependency: order.dependencia.descripcion,
         ocurrenceType: order.tipo_caso.descripcion,
-        responsable: order.id_responsable,
+        responsable: order?.responsable.usuario,
         status: order.estado.descripcion,
         priority: order.tipo_caso.id_prioridad,
         description: order.descripcion_breve,

@@ -1,29 +1,11 @@
-import { useState } from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Dialog, Portal, Text } from 'react-native-paper';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { OrdersOati } from './OrdersOati';
 import { OrderScreen } from '../../../components/order/OrderScreen';
-import { socket } from '../../../config';
 
 export const InboxOati = () => {
 
   const Stack = createNativeStackNavigator();
-  const [visible, setVisible] = useState(false);
-  const [message, setMessage] = useState('');
-
-  const showDialog = () => {
-    setVisible(true);
-  }
-
-  const hideDialog = () => {
-    setVisible(false);
-  }
-
-  socket.on('notification', (data) => {
-    setMessage(data)
-    showDialog();
-  });
 
   return (
     <>
@@ -43,18 +25,6 @@ export const InboxOati = () => {
           }}
         />
       </Stack.Navigator>
-
-      <Portal>
-        <Dialog visible={visible} onDismiss={hideDialog}>
-          <Dialog.Icon icon="checkbox-marked-circle" />
-          <Dialog.Title style={{ textAlign: 'center' }}>Success</Dialog.Title>
-          <Dialog.Content>
-            <Text variant="bodyMedium">
-              {message}
-            </Text>
-          </Dialog.Content>
-        </Dialog>
-      </Portal>
     </>
   )
 }

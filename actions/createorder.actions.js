@@ -7,12 +7,12 @@ export const createorder = (order = {}) => {
 
     socket.emit('createOrder', order);
 
-    socket.on('notification', (header, message) => {
+    socket.on('generatedCase', ([order]) => {
       dispatch({
         type: CREATE_ORDER_SUCCESS,
         payload: {
-          title: header,
-          message,
+          title: 'Caso notificado a OATI',
+          message: 'Será atendido en la brevedad posible.',
         }
       });
 
